@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainLayoutBinding binding;
     FragmentManager frManager;
 
-    TrendingFragment trendingFragment;
+    PopularFragment trendingFragment;
     FavoriteFragment favoriteFragment;
     NewItemFragment newItemFragment;
 
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         frManager = getSupportFragmentManager();
 
-        trendingFragment = new TrendingFragment();
+        trendingFragment = new PopularFragment();
         favoriteFragment = new FavoriteFragment();
         newItemFragment = new NewItemFragment();
 
