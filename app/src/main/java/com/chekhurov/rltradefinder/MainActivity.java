@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.chekhurov.rltradefinder.databinding.ActivityMainLayoutBinding;
+import com.chekhurov.rltradefinder.popular_items.PopularFragment;
 
 public class MainActivity extends AppCompatActivity {
 
