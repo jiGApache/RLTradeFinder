@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.chekhurov.rltradefinder.RLItem;
+import com.chekhurov.rltradefinder.Utils.RLItem;
 import com.chekhurov.rltradefinder.popular_items.PopularItemsAdapter;
 
 import org.jsoup.Connection;
@@ -21,7 +21,7 @@ public class Threads {
 
     private static final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    public static Thread loadPopularItemsThread (List<RLItem> popularItems, PopularItemsAdapter adapter){
+    public static Thread loadPopularItemsThread (PopularItemsAdapter adapter){
         return new Thread(() -> {
             try {
                 Connection connection = Jsoup.connect("https://rocket-league.com/items/popular");
@@ -42,7 +42,7 @@ public class Threads {
 
 //                    Log.d("TAG", "image: " + itemImageURL + ", color: " + (itemColor != null ?  itemColor : "NONE") + ", item name: " + itemName);
 
-                    popularItems.add(new RLItem(
+                    adapter.getPopularItems().add(new RLItem(
                             itemName,
                             itemColor,
                             itemImageURL
@@ -53,16 +53,15 @@ public class Threads {
                     adapter.notifyDataSetChanged();
 
                     ImageExecutorService executorService = new ImageExecutorService();
-                    for (RLItem item : popularItems){
-                        String imageURL = item.getImageURL();
-                        executorService.execute(new ImageExecutorService.LoadImageRunnable(imageURL));
+                    for (RLItem item : adapter.getPopularItems()){
+                        executorService.execute(new ImageExecutorService.LoadImageRunnable(item));
                     }
                 });
             } catch (IOException ioException) {
-                ioException.printStackTrace();
                 if (ioException instanceof SocketTimeoutException){
                     //ToDO показать сообщение об ошибке загрузки данных и предложить повторить
                 }
+                ioException.printStackTrace();
             }
         });
     }

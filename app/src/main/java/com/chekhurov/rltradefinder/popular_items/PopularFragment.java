@@ -11,7 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.chekhurov.rltradefinder.RLItem;
+import com.chekhurov.rltradefinder.Utils.PopularImageAdapterHelper;
+import com.chekhurov.rltradefinder.Utils.RLItem;
 import com.chekhurov.rltradefinder.Threads.Threads;
 import com.chekhurov.rltradefinder.databinding.FragmentPopularBinding;
 
@@ -42,13 +43,14 @@ public class PopularFragment extends Fragment {
         binding.rvTrending.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.VERTICAL, false)
         );
+        PopularImageAdapterHelper.getInstance().setUpAdapter(adapter);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         if (popularItems == null || popularItems.size() == 0)
-            Threads.loadPopularItemsThread(popularItems, adapter).start();
+            Threads.loadPopularItemsThread(adapter).start();
 
     }
 

@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chekhurov.rltradefinder.LruCaching.LruImageCache;
-import com.chekhurov.rltradefinder.RLItem;
+import com.chekhurov.rltradefinder.Utils.RLItem;
+import com.chekhurov.rltradefinder.Utils.PopularImageAdapterHelper;
 import com.chekhurov.rltradefinder.databinding.PopularItemLayoutBinding;
 
 import java.util.List;
@@ -57,16 +57,19 @@ public class PopularItemsAdapter
             String color = popularItems.get(position).getColor();
             this.binding.popularItemColor.setText(color != null ? color : "");
 
-            String imageURL = popularItems.get(position).getImageURL();
-            Bitmap image = LruImageCache.getInstance().getImageByURL(imageURL);
+            Bitmap image = popularItems.get(position).getImage();
             if (image != null) {
                 this.binding.popularImageView.setImageBitmap(image);
-                Log.d("TAG", "Getting image from CACHE");
             }
             else {
-                LruImageCache.getInstance().addToWaitingQueue(PopularItemsAdapter.this, position, imageURL);
+                Log.d("TAG", "addToWaitingQueue, pos: " + position);
+                PopularImageAdapterHelper.getInstance().addToWaitingQueue(popularItems.get(position), position);
             }
         }
 
+    }
+
+    public List<RLItem> getPopularItems() {
+        return popularItems;
     }
 }

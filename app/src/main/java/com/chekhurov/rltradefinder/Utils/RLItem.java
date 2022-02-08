@@ -1,4 +1,6 @@
-package com.chekhurov.rltradefinder;
+package com.chekhurov.rltradefinder.Utils;
+
+import android.graphics.Bitmap;
 
 import androidx.annotation.Nullable;
 
@@ -14,6 +16,7 @@ public class RLItem {
 //    private int minPrice;
 //    private int maxPrice;
 //    private boolean isBlueprint;
+    private Bitmap image;
 
     public RLItem(String name, String color, String imageURL) {
         this.name = name;
@@ -43,6 +46,14 @@ public class RLItem {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
     @Override
