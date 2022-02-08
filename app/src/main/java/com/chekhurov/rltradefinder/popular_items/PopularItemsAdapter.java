@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chekhurov.rltradefinder.LruImageCache;
+import com.chekhurov.rltradefinder.LruCaching.LruImageCache;
 import com.chekhurov.rltradefinder.RLItem;
 import com.chekhurov.rltradefinder.databinding.PopularItemLayoutBinding;
 
 import java.util.List;
-import java.util.Optional;
 
 public class PopularItemsAdapter
         extends RecyclerView.Adapter<PopularItemsAdapter.PopularItemViewHolder>{

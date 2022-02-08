@@ -1,26 +1,21 @@
-package com.chekhurov.rltradefinder;
+package com.chekhurov.rltradefinder.Threads;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.chekhurov.rltradefinder.RLItem;
 import com.chekhurov.rltradefinder.popular_items.PopularItemsAdapter;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.SocketTimeoutException;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Threads {
 
@@ -29,7 +24,8 @@ public class Threads {
     public static Thread loadPopularItemsThread (List<RLItem> popularItems, PopularItemsAdapter adapter){
         return new Thread(() -> {
             try {
-                Document doc = Jsoup.connect("https://rocket-league.com/items/popular").timeout(120000).get();
+                Connection connection = Jsoup.connect("https://rocket-league.com/items/popular");
+                Document doc = connection.get();
                 Log.d("TAG", "got the document");
                 Elements trendingElements = doc.getElementsByClass("rlg-item__container");
 
@@ -64,56 +60,12 @@ public class Threads {
                 });
             } catch (IOException ioException) {
                 ioException.printStackTrace();
+                if (ioException instanceof SocketTimeoutException){
+                    //ToDO показать сообщение об ошибке загрузки данных и предложить повторить
+                }
             }
         });
     }
-
-
-
 }
 
-class ImageExecutorService {
 
-    private static final Handler mainHandler = new Handler(Looper.getMainLooper());
-    private final int numberOfProcessors = Runtime.getRuntime().availableProcessors();
-
-    private final ExecutorService executorService;
-
-    public ImageExecutorService(){
-        executorService = Executors.newFixedThreadPool(numberOfProcessors);
-    }
-
-    public void execute(LoadImageRunnable runnable){
-        executorService.execute(runnable);
-    }
-
-
-    static class LoadImageRunnable implements Runnable{
-
-        private final String imageURL;
-
-        public LoadImageRunnable(String imageURL){
-            this.imageURL = imageURL;
-        }
-
-        @Override
-        public void run() {
-            try {
-                URL url = new URL(imageURL);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.setConnectTimeout(0);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(input);
-                Log.d("TAG", "URL: " + imageURL + " | bitmap size: " + bitmap.getByteCount());
-
-                mainHandler.post(() -> LruImageCache.getInstance().addBitmapToMemoryCache(imageURL, bitmap));
-
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
-    }
-
-}

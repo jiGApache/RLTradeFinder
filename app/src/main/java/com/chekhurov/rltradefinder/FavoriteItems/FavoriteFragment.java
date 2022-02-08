@@ -1,4 +1,4 @@
-package com.chekhurov.rltradefinder;
+package com.chekhurov.rltradefinder.FavoriteItems;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

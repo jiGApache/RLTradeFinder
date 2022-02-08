@@ -1,4 +1,4 @@
-package com.chekhurov.rltradefinder;
+package com.chekhurov.rltradefinder.LruCaching;
 
 import android.graphics.Bitmap;
 import android.util.Log;
