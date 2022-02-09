@@ -2,7 +2,7 @@ package com.chekhurov.rltradefinder.Utils;
 
 import android.util.Log;
 
-import com.chekhurov.rltradefinder.popular_items.PopularItemsAdapter;
+import com.chekhurov.rltradefinder.PopularItems.PopularItemsAdapter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,9 @@ public class PopularImageAdapterHelper {
     }
 
     public static PopularImageAdapterHelper getInstance(){
-        //ToDo бросить исключение если не настроен адаптер
+        if (adapter == null) {
+            //ToDo бросить исключение если не настроен адаптер
+        }
         PopularImageAdapterHelper localInstance = instance;
         if (localInstance == null){
             synchronized (PopularImageAdapterHelper.class){
@@ -32,7 +34,7 @@ public class PopularImageAdapterHelper {
         return localInstance;
     }
 
-    public void setUpAdapter(PopularItemsAdapter adapter){
+    public void setAdapter(PopularItemsAdapter adapter){
         PopularImageAdapterHelper.adapter = adapter;
     }
 
@@ -43,7 +45,7 @@ public class PopularImageAdapterHelper {
     public  void notifyAdapter(RLItem rlItem){
         Integer position = waitingQueue.remove(rlItem);
         if (position != null) {
-            Log.d("TAG", "notifyAdapter, pos: " + position);
+//            Log.d("TAG", "notifyAdapter, pos: " + position);
             adapter.notifyItemChanged(position);
         }
     }

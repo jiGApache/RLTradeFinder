@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.chekhurov.rltradefinder.FavoriteItems.FavoriteFragment;
 import com.chekhurov.rltradefinder.NewItems.NewItemFragment;
-import com.chekhurov.rltradefinder.popular_items.PopularFragment;
+import com.chekhurov.rltradefinder.PopularItems.PopularFragment;
 
 import java.util.Arrays;
 import java.util.List;

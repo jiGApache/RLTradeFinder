@@ -1,4 +1,4 @@
-package com.chekhurov.rltradefinder.popular_items;
+package com.chekhurov.rltradefinder.PopularItems;
 
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -62,7 +62,7 @@ public class PopularItemsAdapter
                 this.binding.popularImageView.setImageBitmap(image);
             }
             else {
-                Log.d("TAG", "addToWaitingQueue, pos: " + position);
+//                Log.d("TAG", "addToWaitingQueue, pos: " + position);
                 PopularImageAdapterHelper.getInstance().addToWaitingQueue(popularItems.get(position), position);
             }
         }

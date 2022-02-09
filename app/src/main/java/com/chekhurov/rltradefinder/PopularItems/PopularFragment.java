@@ -1,4 +1,4 @@
-package com.chekhurov.rltradefinder.popular_items;
+package com.chekhurov.rltradefinder.PopularItems;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.chekhurov.rltradefinder.Multithreading.ExecutorService;
+import com.chekhurov.rltradefinder.Multithreading.Runnables;
 import com.chekhurov.rltradefinder.Utils.PopularImageAdapterHelper;
 import com.chekhurov.rltradefinder.Utils.RLItem;
-import com.chekhurov.rltradefinder.Threads.Threads;
 import com.chekhurov.rltradefinder.databinding.FragmentPopularBinding;
 
 import java.util.ArrayList;
@@ -43,14 +44,16 @@ public class PopularFragment extends Fragment {
         binding.rvTrending.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.VERTICAL, false)
         );
-        PopularImageAdapterHelper.getInstance().setUpAdapter(adapter);
+        PopularImageAdapterHelper.getInstance().setAdapter(adapter);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         if (popularItems == null || popularItems.size() == 0)
-            Threads.loadPopularItemsThread(adapter).start();
+            new ExecutorService(ExecutorService.LOAD_POPULAR_ITEMS).execute(
+                    new Runnables.LoadPopularRunnable(adapter)
+            );
 
     }
 
